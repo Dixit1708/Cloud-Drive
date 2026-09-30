@@ -1,0 +1,25 @@
+# Render.com blueprint. NOTE: a persistent disk needs a paid instance type.
+services:
+  - type: web
+    name: clouddrive
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --timeout 120 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: BASE_URL
+        sync: false          # e.g. https://clouddrive.onrender.com
+      - key: DATA_DIR
+        value: /var/data
+      - key: USER_QUOTA_MB
+        value: "5000"
+    disk:
+      name: drive-data
+      mountPath: /var/data
+      sizeGB: 10

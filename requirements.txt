@@ -1,0 +1,6 @@
+Flask>=3.0
+gunicorn>=21.2; sys_platform != "win32"
+# Only needed if STORAGE_BACKEND=s3 (AWS S3 / Cloudflare R2)
+boto3>=1.34
+# Only needed for real card payments (STRIPE_SECRET_KEY set)
+stripe>=8.0
